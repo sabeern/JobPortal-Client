@@ -23,7 +23,7 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const url = "http://localhost:8000/signin";
+      const url = "https://job-solutions-server.onrender.com/signin";
       const { data: res } = await instance.post(url, loginDetails);
       localStorage.setItem("empToken", res.token);
       dispatch(setUser());

@@ -84,7 +84,7 @@ function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatu
                             <tr>
                                 <td><b>Resume</b></td>
                                 <td>
-                                    <a href={`http://localhost:8000/resume/${data.resume}`} target="_blank">View Resume</a>
+                                    <a href={`https://job-solutions-server.onrender.com/resume/${data.resume}`} target="_blank">View Resume</a>
                                 </td>
                             </tr>
                             <tr>
