@@ -44,7 +44,7 @@ function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatu
             try {
                 await instance.put('jobs/tagJob', { jobId: job._id, empId: data._id });
                 setTagStatus(true);
-                window.open('http://localhost:3000/chat', '_blank', 'noopener,noreferrer');
+                window.open('https://job-portal-gwu4.onrender.com/chat', '_blank', 'noopener,noreferrer');
             } catch (err) {
             }
         } catch (err) {

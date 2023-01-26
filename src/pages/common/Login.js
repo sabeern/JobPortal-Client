@@ -23,8 +23,11 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const url = "https://job-solutions-server.onrender.com/signin";
-      const { data: res } = await instance.post(url, loginDetails);
+      console.log('coming1');
+      console.log(instance);
+      const { data: res } = await instance.post("/signin", loginDetails);
+      console.log('coming');
+      console.log(res.token);
       localStorage.setItem("empToken", res.token);
       dispatch(setUser());
       if (res.user.userType === 'Job Provider') {
