@@ -6,7 +6,7 @@ import { userChats } from '../../apis/ChatRequests';
 import Converstations from '../../containers/common/Converstations';
 import Chatbox from '../../containers/common/Chatbox';
 import { io } from 'socket.io-client';
-import { instance } from '../../apis/JobSolutionApi';
+import { instance, socketUrl } from '../../apis/JobSolutionApi';
 
 function EmployerChat() {
   const user = useSelector((store) => store.allUsers.user);
@@ -27,7 +27,7 @@ function EmployerChat() {
     getChat();
   }, [user._id])
   useEffect(() => {
-    socket.current = io('https://job-solutions-socket.onrender.com');
+    socket.current = io(socketUrl);
     socket.current.emit("new-user-add", user._id);
     socket.current.on('get-users', (users) => {
       setOnlineUsers(users);
@@ -40,6 +40,12 @@ function EmployerChat() {
   }, [sendMessage]);
   useEffect(() => {
     socket.current.on("recieve-message", (data) => {
+
+      console.log('cccc')
+      userChats(user._id).then((res)=> {
+        console.log(res.data);
+        setChats(res.data);
+      }).catch((err)=> {})
       setReceivedMessage(data);
     });
   }, []);
@@ -117,8 +123,8 @@ function EmployerChat() {
                     </div>
                   </MDBCol>
                   <MDBCol md="6" lg="7" xl="8">
-                    <Chatbox chat={currentChat} currentUserId={user._id} setSendMessage={setSendMessage}
-                      receivedMessage={receivedMessage} />
+                    {currentChat && <Chatbox chat={currentChat} currentUserId={user._id} setSendMessage={setSendMessage}
+                      receivedMessage={receivedMessage} />}
                   </MDBCol>
                 </MDBRow>
               </MDBCardBody>
