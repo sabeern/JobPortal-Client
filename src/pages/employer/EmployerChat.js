@@ -25,7 +25,7 @@ function EmployerChat() {
       }
     }
     getChat();
-  }, [user._id, receivedMessage])
+  }, [user._id])
   useEffect(() => {
     socket.current = io('https://job-solutions-socket.onrender.com');
     socket.current.emit("new-user-add", user._id);
