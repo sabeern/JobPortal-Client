@@ -6,7 +6,7 @@ import { instance } from '../../apis/JobSolutionApi';
 function Converstations({ data, currentUserId, online }) {
   const [userData, setUserData] = useState();
   const [unReadCount, setUnreadCount] = useState();
-  const user = useSelector((store)=> store.allUsers.user);
+  const user = useSelector((store) => store.allUsers.user);
   useEffect(() => {
     const otherUserId = data.members.find((id) => id !== currentUserId);
     const getUserData = async () => {
@@ -16,12 +16,12 @@ function Converstations({ data, currentUserId, online }) {
       } catch (err) {
       }
     }
-    if(data) {
+    if (data) {
       const token = localStorage.getItem('empToken');
       const headers = { 'X-Custom-Header': `${token}` }
-      instance.get(`/message/unreadCount/${data._id}/${user._id}`,{headers}).then((res)=> {
+      instance.get(`/message/unreadCount/${data._id}/${user._id}`, { headers }).then((res) => {
         setUnreadCount(res.data);
-      }).catch((err)=> {
+      }).catch((err) => {
         setUnreadCount(0);
       })
     }
@@ -46,9 +46,9 @@ function Converstations({ data, currentUserId, online }) {
               <p className="fw-bold mb-0">{userData && (userData.companyName ? userData.companyName : (userData.firstName + " " + userData.lastName))}</p>
               <p className="small text-muted">
                 {online ? 'Online' : 'Offline'}&nbsp;&nbsp;
-                { unReadCount !== 0 && <span className="badge bg-danger rounded-pill">
-                                {unReadCount}
-                              </span>}
+                {unReadCount !== 0 && <span className="badge bg-danger rounded-pill">
+                  {unReadCount}
+                </span>}
               </p>
             </div>
           </div>

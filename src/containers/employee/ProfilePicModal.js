@@ -16,12 +16,12 @@ function ProfilePicModal({ data }) {
     const changeProfilePic = async () => {
         setLoading(true);
         const imageCheck = selectedImage.name.split('.');
-    const imageExtention = imageCheck[imageCheck.length-1];
-    if(imageExtention !== 'jpg' && imageExtention !== 'jpeg' && imageExtention !== 'png' && imageExtention !== 'webp') {
-        setErr('Only jpg/png/webp allowed');
-        setLoading(false);
-        return;
-    }
+        const imageExtention = imageCheck[imageCheck.length - 1];
+        if (imageExtention !== 'jpg' && imageExtention !== 'jpeg' && imageExtention !== 'png' && imageExtention !== 'webp') {
+            setErr('Only jpg/png/webp allowed');
+            setLoading(false);
+            return;
+        }
         const formData = new FormData();
         formData.append("file", selectedImage);
         formData.append("upload_preset", "Jobsolutions");

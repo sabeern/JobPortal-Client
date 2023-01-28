@@ -11,13 +11,13 @@ function EmployeeDetails() {
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
     const headers = { 'X-Custom-Header': `${token}` }
-    instance.get('/admin/management/getEmployeeDetails', {headers}).then((res) => {
+    instance.get('/admin/management/getEmployeeDetails', { headers }).then((res) => {
       const empDetails = res.data.empDetails;
       let details = empDetails.map((val, index) => {
         let blockStatus;
-        if(val.blockStatus) {
+        if (val.blockStatus) {
           blockStatus = 'Blocked';
-        }else {
+        } else {
           blockStatus = 'None';
         }
         let data = {
@@ -26,8 +26,8 @@ function EmployeeDetails() {
           jobTitle: val.jobTitle,
           contactNumber: val.contactNumber,
           registeredDate: returnNewDate(val.registeredDate),
-          blockStatus:blockStatus,
-          block:<Link to={`/admin/blockConfirmation/${val._id}/${val.blockStatus}`}><button style={{borderRadius:'10px'}}>Block/Unblock</button></Link>
+          blockStatus: blockStatus,
+          block: <Link to={`/admin/blockConfirmation/${val._id}/${val.blockStatus}`}><button style={{ borderRadius: '10px' }}>Block/Unblock</button></Link>
         }
         return data;
       });

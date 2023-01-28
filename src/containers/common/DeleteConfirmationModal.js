@@ -9,12 +9,12 @@ function DeleteConfirmationModal({ data }) {
         if (data.type === 'job') {
             const token = localStorage.getItem('empToken');
             const headers = { 'X-Custom-Header': `${token}` };
-            await instance.delete(`/jobs/deleteJob/${data.id}`,{headers});
+            await instance.delete(`/jobs/deleteJob/${data.id}`, { headers });
         }
         if (data.type === 'post') {
             const token = localStorage.getItem('empToken');
             const headers = { 'X-Custom-Header': `${token}` };
-            await instance.delete(`/post/deletePost/${data.id}`, {headers});
+            await instance.delete(`/post/deletePost/${data.id}`, { headers });
         }
         navigate('/empProfile');
     }

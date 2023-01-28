@@ -11,24 +11,24 @@ function BlockConfirmationModal({ data }) {
         try {
             const token = localStorage.getItem('adminToken');
             const headers = { 'X-Custom-Header': `${token}` }
-            await instance.put('/admin/management/blockUnblockUser',employerDetails, {headers});
+            await instance.put('/admin/management/blockUnblockUser', employerDetails, { headers });
             navigate(-1)
-        }catch(err) {
+        } catch (err) {
             setErr(err.response.data.errMsg);
         }
     }
     let status;
     let btnColor;
-    if(employerDetails.status === 'true') {
+    if (employerDetails.status === 'true') {
         status = 'Unblock';
         btnColor = 'primary';
-    }else if(employerDetails.status === 'false'){
+    } else if (employerDetails.status === 'false') {
         status = 'Block';
         btnColor = 'danger';
     }
     return (
         <>
-            <Modal show={data.show} onHide={()=>navigate(-1)}>
+            <Modal show={data.show} onHide={() => navigate(-1)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Please Confirm</Modal.Title>
                 </Modal.Header>
@@ -39,10 +39,10 @@ function BlockConfirmationModal({ data }) {
                     <p>Do you want to {status} user</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={()=>navigate(-1)}>
+                    <Button variant="secondary" onClick={() => navigate(-1)}>
                         Cancel
                     </Button>
-                    <Button variant={btnColor} onClick={()=>blockHandle()}>
+                    <Button variant={btnColor} onClick={() => blockHandle()}>
                         {status}
                     </Button>
                 </Modal.Footer>

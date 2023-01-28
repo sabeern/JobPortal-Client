@@ -6,38 +6,38 @@ import Header from '../../containers/common/Header';
 import { format } from 'timeago.js';
 
 function EmprNotification() {
-    const user = useSelector((store)=>store.allUsers.user);
+    const user = useSelector((store) => store.allUsers.user);
     const [notification, setNotification] = useState();
     useEffect(() => {
         const token = localStorage.getItem('empToken');
         const headers = { 'X-Custom-Header': `${token}` };
-        instance.get('/jobs/notification/'+user._id, {headers}).then((res) => {
+        instance.get('/jobs/notification/' + user._id, { headers }).then((res) => {
             setNotification(res.data.notifications);
-        }).catch((err)=> {
+        }).catch((err) => {
 
         })
-    },[])
-  return (
-    <>
-    <Header/>
-    <Row>
-        <Col md={2}></Col>
-        <Col md={8}>
-            <div className="m-4 p-4" style={{border:'1px solid black', borderRadius:'20px'}}>
-                {notification && notification.map((val)=> {
-                    return(
-                        <>
-                        <p>{val.message} - <span style={{color:'blue'}}><i>{format(val.createdAt)}</i></span></p>
-                        <hr/>
-                        </>
-                    )
-                })}
-            </div>
-        </Col>
-        <Col md={2}></Col>
-    </Row>
-    </>
-  )
+    }, [])
+    return (
+        <>
+            <Header />
+            <Row>
+                <Col md={2}></Col>
+                <Col md={8}>
+                    <div className="m-4 p-4" style={{ border: '1px solid black', borderRadius: '20px' }}>
+                        {notification && notification.map((val) => {
+                            return (
+                                <>
+                                    <p>{val.message} - <span style={{ color: 'blue' }}><i>{format(val.createdAt)}</i></span></p>
+                                    <hr />
+                                </>
+                            )
+                        })}
+                    </div>
+                </Col>
+                <Col md={2}></Col>
+            </Row>
+        </>
+    )
 }
 
 export default EmprNotification;

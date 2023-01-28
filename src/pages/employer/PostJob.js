@@ -19,10 +19,24 @@ function PostJob() {
   }
   const submitJob = async (e) => {
     setLoading(true);
+    let jobTitle = jobDetails.jobTitle.trim();
+    if (!jobTitle) {
+      setJobErr('Job title required');
+      setLoading(false);
+      return;
+    }
+    let salaryRange = jobDetails.salaryRange.trim();
+    let pattern = /^[0-9- ]+$/;
+    let result = salaryRange.match(pattern);
+    if (!result) {
+      setJobErr("Entered salary not valid")
+      setLoading(false);
+      return;
+    }
     try {
       const token = localStorage.getItem('empToken');
       const headers = { 'X-Custom-Header': `${token}` }
-      await instance.post('/user/postJob', jobDetails,{headers});
+      await instance.post('/user/postJob', jobDetails, { headers });
       navigate("/empProfile");
     } catch (error) {
       setJobErr(error.response.data.errMsg);

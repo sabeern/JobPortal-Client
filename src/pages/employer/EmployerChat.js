@@ -40,12 +40,9 @@ function EmployerChat() {
   }, [sendMessage]);
   useEffect(() => {
     socket.current.on("recieve-message", (data) => {
-
-      console.log('cccc')
-      userChats(user._id).then((res)=> {
-        console.log(res.data);
+      userChats(user._id).then((res) => {
         setChats(res.data);
-      }).catch((err)=> {})
+      }).catch((err) => { })
       setReceivedMessage(data);
     });
   }, []);
@@ -59,7 +56,7 @@ function EmployerChat() {
     try {
       const token = localStorage.getItem('empToken');
       const headers = { 'X-Custom-Header': `${token}` }
-      const { data } = await instance.get(`/jobs/getTagedUser/${search}`, {headers});
+      const { data } = await instance.get(`/jobs/getTagedUser/${search}`, { headers });
       const usersList = data.tagedUsers.selectedApplicant;
       let temp = 0;
       const newChat = chats.filter((val) => {
@@ -104,7 +101,7 @@ function EmployerChat() {
                           className="input-group-text border-0"
                           id="search-addon"
                         >
-                          <MDBIcon fas icon="search"/>
+                          <MDBIcon fas icon="search" />
                         </span>
                       </MDBInputGroup>
                       <div className="overflow-auto pt-3 pe-3" style={{ height: '70vh' }}>

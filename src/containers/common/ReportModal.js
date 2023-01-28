@@ -19,7 +19,7 @@ function ReportModal({ data }) {
         try {
             const token = localStorage.getItem('empToken');
             const headers = { 'X-Custom-Header': `${token}` };
-            await instance.post('/jobs/reportIssue', postData, {headers});
+            await instance.post('/jobs/reportIssue', postData, { headers });
             setJobIssue('');
             data.handleClose();
         } catch (err) {

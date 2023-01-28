@@ -29,8 +29,8 @@ function AddPostModal({ data }) {
     const handlePost = async () => {
         setLoading(true);
         const imageCheck = selectedImage.name.split('.');
-        const imageExtention = imageCheck[imageCheck.length-1];
-        if(imageExtention !== 'jpg' && imageExtention !== 'jpeg' && imageExtention !== 'png' && imageExtention !== 'webp') {
+        const imageExtention = imageCheck[imageCheck.length - 1];
+        if (imageExtention !== 'jpg' && imageExtention !== 'jpeg' && imageExtention !== 'png' && imageExtention !== 'webp') {
             setErr('Only jpg/png/webp allowed');
             setLoading(false);
             return;

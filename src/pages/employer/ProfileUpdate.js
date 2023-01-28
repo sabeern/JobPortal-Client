@@ -36,6 +36,18 @@ function ProfileUpdate() {
   async function HandleSubmit(e) {
     e.preventDefault();
     setLoading(true);
+    let companyName = companyDetails.companyName;
+    if (!companyName) {
+      setErr('Company name required');
+      setLoading(false);
+      return;
+    }
+    let companyLocation = companyDetails.companyLocation;
+    if (!companyLocation) {
+      setErr('Company location required');
+      setLoading(false);
+      return;
+    }
     if (!image) {
       try {
         const token = localStorage.getItem('empToken');
@@ -50,12 +62,11 @@ function ProfileUpdate() {
       return;
     }
     const imageCheck = image.name.split('.');
-    const imageExtention = imageCheck[imageCheck.length-1];
-    console.log(imageExtention);
-    if(imageExtention !== 'jpg' && imageExtention !== 'jpeg' && imageExtention !== 'png' && imageExtention !== 'webp') {
-        setErr('Only jpg/png/webp allowed');
-        setLoading(false);
-        return;
+    const imageExtention = imageCheck[imageCheck.length - 1];
+    if (imageExtention !== 'jpg' && imageExtention !== 'jpeg' && imageExtention !== 'png' && imageExtention !== 'webp') {
+      setErr('Only jpg/png/webp allowed');
+      setLoading(false);
+      return;
     }
     const formData = new FormData();
     formData.append("file", image);

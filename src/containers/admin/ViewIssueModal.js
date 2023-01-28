@@ -12,7 +12,7 @@ function ViewIssueModal({ data, jobId }) {
     const blockJob = async () => {
         const token = localStorage.getItem('adminToken');
         const headers = { 'X-Custom-Header': `${token}` };
-        await instance.put('/admin/management/blockJob', { jobId, blockStatus }, {headers});
+        await instance.put('/admin/management/blockJob', { jobId, blockStatus }, { headers });
         setReload(!reload);
         data.handleClose();
     }
