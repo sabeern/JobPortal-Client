@@ -51,7 +51,9 @@ function EmployerChat() {
   const [search, setSearch] = useState();
   const searchedUser = async () => {
     try {
-      const { data } = await instance.get(`/jobs/getTagedUser/${search}`);
+      const token = localStorage.getItem('empToken');
+      const headers = { 'X-Custom-Header': `${token}` }
+      const { data } = await instance.get(`/jobs/getTagedUser/${search}`, {headers});
       const usersList = data.tagedUsers.selectedApplicant;
       let temp = 0;
       const newChat = chats.filter((val) => {

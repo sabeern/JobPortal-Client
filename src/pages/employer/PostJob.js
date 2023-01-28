@@ -5,6 +5,7 @@ import PostJobForm from '../../containers/employer/PostJobForm';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Loader from '../../containers/common/Loader';
+import { instance } from '../../apis/JobSolutionApi';
 
 function PostJob() {
   const [jobDetails, setJobDetails] = useState({
@@ -20,11 +21,8 @@ function PostJob() {
     setLoading(true);
     try {
       const token = localStorage.getItem('empToken');
-      const instance = axios.create({
-        baseURL: 'https://job-solutions-server.onrender.com/',
-        headers: { 'X-Custom-Header': `${token}` }
-      });
-      await instance.post('/user/postJob', jobDetails);
+      const headers = { 'X-Custom-Header': `${token}` }
+      await instance.post('/user/postJob', jobDetails,{headers});
       navigate("/empProfile");
     } catch (error) {
       setJobErr(error.response.data.errMsg);

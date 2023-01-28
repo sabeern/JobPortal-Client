@@ -23,11 +23,8 @@ function Converstations({ data, currentUserId, online }) {
         >
           <div className="d-flex flex-row">
             <div>
-              {userData && userData.userType === 'Job Seeker' ?
+              {userData &&
                 <img src={userData && userData.profileImage ? userData.profileImage : 'https://job-solutions-server.onrender.com/images/default.webp'}
-                  className="rounded-circle d-flex align-self-center me-3" alt="Avatar" style={{ width: '60px', height: '60px' }} />
-                :
-                <img src={userData && userData.profileImage ? 'https://job-solutions-server.onrender.com/images/' + userData.profileImage : 'https://job-solutions-server.onrender.com/images/default.webp'}
                   className="rounded-circle d-flex align-self-center me-3" alt="Avatar" style={{ width: '60px', height: '60px' }} />
               }
               <span className="badge bg-success badge-dot"></span>
