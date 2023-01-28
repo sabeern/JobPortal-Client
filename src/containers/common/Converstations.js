@@ -13,7 +13,7 @@ function Converstations({ data, currentUserId, online }) {
       }
     }
     getUserData();
-  }, []);
+  }, [data]);
 
   return (
     <>

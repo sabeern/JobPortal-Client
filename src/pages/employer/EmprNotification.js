@@ -27,7 +27,7 @@ function EmprNotification() {
                 {notification && notification.map((val)=> {
                     return(
                         <>
-                        <p>{val.message} - <span style={{color:'blue'}}><i>{format(val.addedTime)}</i></span></p>
+                        <p>{val.message} - <span style={{color:'blue'}}><i>{format(val.createdAt)}</i></span></p>
                         <hr/>
                         </>
                     )

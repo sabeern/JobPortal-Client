@@ -1,7 +1,6 @@
 import { Form, Button, Alert } from 'react-bootstrap';
 import FormInputbox from '../../components/FormInputbox';
-import React from 'react'
-import { useSelector } from 'react-redux';
+import React from 'react';
 
 function PostJobForm({ data }) {
     return (
