@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 function AdminLoginImage() {
   const navigate = useNavigate();
-  useEffect(() => {
-    const token = localStorage.getItem('adminToken');
-    if (token) {
-      navigate('/admin/dashboard');
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem('adminToken');
+  //   if (token) {
+  //     navigate('/admin/dashboard');
+  //   }
+  // }, []);
   return (
     <MDBCol sm='6' className='d-none d-sm-block px-0'>
       <input type="image" img src="https://img.freepik.com/free-vector/flat-design-illustration-customer-support_23-2148887720.jpg"

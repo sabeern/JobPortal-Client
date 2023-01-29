@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { instance } from '../../apis/JobSolutionApi';
 import Header from '../../containers/common/Header';
 import { format } from 'timeago.js';
+import { Link } from 'react-router-dom';
 
 function EmprNotification() {
     const user = useSelector((store) => store.allUsers.user);
@@ -27,8 +28,10 @@ function EmprNotification() {
                         {notification && notification.map((val) => {
                             return (
                                 <>
+                                <Link to={`/jobApplications/${val.jobId}`} style={{textDecoration:'none',cursor:'pointer'}}>
                                     <p>{val.message} - <span style={{ color: 'blue' }}><i>{format(val.createdAt)}</i></span></p>
                                     <hr />
+                                </Link>
                                 </>
                             )
                         })}

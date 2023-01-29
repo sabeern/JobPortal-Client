@@ -30,10 +30,10 @@ function AllRoutes() {
   const userToken = localStorage.getItem('empToken');
   return (
     <Routes>
+      <Route path="/admin" element={<AdminLogin />}></Route>
       {!userToken && <><Route path="/signin" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/forgotPassword" element={<ForgotPassword />}></Route></>}
-      <Route path="/admin" element={<AdminLogin />}></Route>
       {user && user.userType === 'Job Seeker' &&
         <>
           (<Route path="/posts" element={<Posts />}></Route>
