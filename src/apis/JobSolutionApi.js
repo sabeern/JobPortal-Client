@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 export const instance = axios.create({
-  baseURL: 'https://job-solutions-server.onrender.com'
-  //http://localhost:8000
+  baseURL: 'http://localhost:8000'
+  //https://job-solutions-server.onrender.com
 });
 
-export const url = 'https://job-portal-gwu4.onrender.com';
-//http://localhost:3000
-export const socketUrl = 'https://job-solutions-socket.onrender.com';
-//http://localhost:8800
+export const url = 'http://localhost:3000';
+//https://job-portal-gwu4.onrender.com
+export const socketUrl = 'http://localhost:8800';
+//https://job-solutions-socket.onrender.com
