@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { BsFillCreditCardFill, BsFillFlagFill } from "react-icons/bs";
 import { useSelector } from 'react-redux';
 import { returnNewDate } from '../../other/DateDisplay';
-import { instance } from '../../apis/JobSolutionApi';
+import { instance, socketUrl } from '../../apis/JobSolutionApi';
 import ReportModal from '../common/ReportModal';
+import { io } from 'socket.io-client';
 
 function EachJobDetails() {
+  const socket = useRef();
   const job = useSelector((store) => store.selectedJob.job);
   const [applyStatus, setApplyStatus] = useState(false);
   const [show, setShow] = useState(false);
@@ -21,6 +23,12 @@ function EachJobDetails() {
     } catch (err) {
     }
   }
+  useEffect(() => {
+    if (applyStatus) {
+      socket.current = io(socketUrl);
+      socket.current.emit('apply-job', {userId:job.user._id});
+    }
+  }, [applyStatus]);
   useEffect(() => {
     if (job) {
       const token = localStorage.getItem('empToken');

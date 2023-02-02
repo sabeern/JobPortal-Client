@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../containers/common/Header';
 import JobCards from '../../containers/employee/JobCards';
 import EachJobDetails from '../../containers/employee/EachJobDetails';
@@ -6,10 +6,22 @@ import { Row, Container, Col } from 'react-bootstrap';
 import SearchBox from '../../containers/employee/SearchBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedJob } from '../../redux/actions/UserAction';
+import Pagination from '../../components/Pagination';
 
 function Home() {
   const dispatch = useDispatch();
-  const allJobs = useSelector((store) => store.allJobs.jobs);
+  const totalJobs = useSelector((store) => store.allJobs.jobs);
+  const [allJobs, setAllJobs] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [jobsPerPage] = useState(10);
+  const indexOfLastPost = currentPage * jobsPerPage;
+  const indexOfFirstPost = indexOfLastPost - jobsPerPage;
+  useEffect(() => {
+    const jobs = totalJobs.slice(indexOfFirstPost, indexOfLastPost);
+    setAllJobs(jobs);
+  }, [currentPage]);
+  // Change page
+  const paginate = pageNumber => setCurrentPage(pageNumber);
   if (allJobs && allJobs.length > 0) {
     dispatch(setSelectedJob(allJobs[0]));
   }
@@ -27,13 +39,19 @@ function Home() {
         <SearchBox />
         <Row>
           <Col md={6} className="overflow-auto" style={{ height: '70vh' }}>
-            {
+            {allJobs &&
               allJobs.map((job, index) => {
                 return (
                   <JobCards key={index} data={job} />
                 );
               })
             }
+            <Pagination
+              jobsPerPage={jobsPerPage}
+              jobCount={totalJobs.length}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
           </Col>
           <Col md={6}>
             <EachJobDetails />

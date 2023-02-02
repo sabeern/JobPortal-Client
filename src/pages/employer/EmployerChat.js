@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBIcon, MDBTypography, MDBInputGroup } from "mdb-react-ui-kit";
 import '../../stylesheet/chatStyle.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userChats } from '../../apis/ChatRequests';
 import Converstations from '../../containers/common/Converstations';
 import Chatbox from '../../containers/common/Chatbox';
 import { io } from 'socket.io-client';
 import { instance, socketUrl } from '../../apis/JobSolutionApi';
+import Header from '../../containers/common/Header';
+import { Logout } from '../../apis/Logout';
+import { useNavigate } from 'react-router-dom';
 
 function EmployerChat() {
   const user = useSelector((store) => store.allUsers.user);
@@ -17,11 +20,15 @@ function EmployerChat() {
   const [receivedMessage, setReceivedMessage] = useState(null);
   const socket = useRef();
   useEffect(() => {
+    const token = localStorage.getItem('empToken');
+    const headers = { 'X-Custom-Header': `${token}` };
     const getChat = async () => {
       try {
-        const { data } = await userChats(user._id);
+        const { data } = await userChats(user._id, headers);
+        console.log('data'+data);
         setChats(data);
       } catch (err) {
+        console.log('err'+err.response.data)
       }
     }
     getChat();
@@ -33,6 +40,11 @@ function EmployerChat() {
       setOnlineUsers(users);
     });
   }, [user]);
+  useEffect(()=> {
+    return() => {
+      socket.current.close();
+    }
+  },[]);
   useEffect(() => {
     if (sendMessage !== null) {
       socket.current.emit('send-message', sendMessage);
@@ -40,9 +52,11 @@ function EmployerChat() {
   }, [sendMessage]);
   useEffect(() => {
     socket.current.on("recieve-message", (data) => {
-      userChats(user._id).then((res) => {
+      const token = localStorage.getItem('empToken');
+      const headers = { 'X-Custom-Header': `${token}` };
+      userChats(user._id, headers).then((res) => {
         setChats(res.data);
-      }).catch((err) => { })
+      }).catch((err) => { });
       setReceivedMessage(data);
     });
   }, []);
@@ -73,14 +87,25 @@ function EmployerChat() {
       setChats(newChat);
     } catch (err) {
       try {
-        const { data } = await userChats(user._id);
+        const token = localStorage.getItem('empToken');
+      const headers = { 'X-Custom-Header': `${token}` };
+        const { data } = await userChats(user._id, headers);
         setChats(data);
       } catch (err) {
       }
     }
   }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logoutFunction = () => {
+    const token = localStorage.getItem('empToken');
+    if(!token) {
+      Logout(dispatch, navigate);
+    }
+  }
   return (
     <>
+    <Header/>
       <MDBContainer fluid style={{ backgroundColor: "#CDC4F9" }} >
         <MDBRow>
           <MDBCol md="12">
@@ -107,21 +132,32 @@ function EmployerChat() {
                       <div className="overflow-auto pt-3 pe-3" style={{ height: '70vh' }}>
                         <MDBTypography listUnStyled className="mb-0" style={{ position: "relative", height: '300px' }}>
                           {chats &&
+                          chats.length > 0 ?
                             chats.map((chat) => {
                               return (
-                                <div onClick={() => setCurrentChat(chat)}>
-                                  <Converstations data={chat} currentUserId={user._id} online={checkOnlineStatus(chat)} />
+                                <div onClick={() =>{ logoutFunction();setCurrentChat(chat)}}>
+                                  <Converstations data={chat} currentUserId={user._id} currentChat={currentChat} online={checkOnlineStatus(chat)} receivedMessage={receivedMessage}/>
                                 </div>
                               )
-                            })
+                            }) :
+                            <>
+                            <img src="https://static.thenounproject.com/png/791662-200.png" alt="No chat"/>
+                            <p className='m-4' style={{fontSize:'25px'}}>No chat avalable</p>
+                            </>
                           }
                         </MDBTypography>
                       </div>
                     </div>
                   </MDBCol>
                   <MDBCol md="6" lg="7" xl="8">
-                    {currentChat && <Chatbox chat={currentChat} currentUserId={user._id} setSendMessage={setSendMessage}
-                      receivedMessage={receivedMessage} />}
+                    {currentChat ? <Chatbox chat={currentChat} currentUserId={user._id} setSendMessage={setSendMessage}
+                      receivedMessage={receivedMessage} />:
+                      <>
+                      <img src="https://www.popsci.com/uploads/2019/03/18/X2ST3NHAKDVHO4YSEC4Q2VNSVE.jpg?auto=webp" alt="Tap to continue"
+                        style={{width:'60%',height:'auto'}}/>
+                          <p className="m-4" style={{color:'#728487'}}>Tap on chat to start to start converstations...</p>
+                      </>
+                      }
                   </MDBCol>
                 </MDBRow>
               </MDBCardBody>

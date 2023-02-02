@@ -13,7 +13,7 @@ function CompanyProfileDetails() {
                 <FormInputbox data={{ type: "text", label: "Company Name", class: "mb-3", placeholder: "Your company name", value: userDetails.companyName, disabled: true }} />
                 <FormInputbox data={{ type: "text", placeholder: "Your company location", label: "Company Location", class: "mb-3", value: userDetails.companyLocation, disabled: true }} />
                 <Col md={12} className="mb-3">
-                    <img src={userDetails.profileImage} alt="Logo not available" style={{ maxWidth: '100%', height: 'auto' }}></img>
+                    <img src={userDetails.profileImage ? userDetails.profileImage : 'https://res.cloudinary.com/dyff453oq/image/upload/v1675225384/Jobsolutions/bodtsvsfblgaigcnrxgd.png'} alt="Logo not available" style={{ maxWidth: '100%', height: 'auto' }}></img>
                 </Col>
                 <Link to="/emprProfile/updateProfile"><Button variant="primary" type="submit">
                     Update Details

@@ -18,7 +18,7 @@ function EmpProfileDetails() {
                             <tr>
                                 <td>
                                     <img src={userDetails.profileImage ? userDetails.profileImage : 'https://job-solutions-server.onrender.com/images/default.webp'}
-                                        className="rounded-circle" alt="Avatar" style={{ width: '80px', height: '80px' }} />
+                                        className="rounded-circle" alt="Profile" style={{ width: '80px', height: '80px' }} />
                                     &nbsp;<Link to={`/changeProfilImage/${userDetails._id}`}><BsPencilSquare style={{ width: '20px', height: 'auto' }} title="Change Profile" /></Link>
                                 </td>
                                 <td>{userDetails.firstName && userDetails.firstName + " " + userDetails.lastName}</td>

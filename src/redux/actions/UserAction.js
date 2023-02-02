@@ -48,7 +48,7 @@ export const fetchAllJobs = (jobs) => {
 export const fetchJobs = () => {
     return async function (dispatch, getState) {
         const token = localStorage.getItem('empToken');
-        const headers = { 'X-Custom-Header': `${token}` }
+        const headers = { 'X-Custom-Header': `${token}` };
         const res = await instance.get('/jobs/employerJobs', { headers: headers });
         dispatch({ type: actionTypes.FETCH_JOBS, payload: res.data.employerJobs });
     }

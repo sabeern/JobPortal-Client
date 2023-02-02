@@ -23,6 +23,7 @@ import EmployeeDetails from '../../pages/admin/EmployeeDetails';
 import EmployerDetails from '../../pages/admin/EmployerDetails';
 import BlockConfirmation from '../../pages/admin/BlockConfirmation';
 import EmprNotification from '../../pages/employer/EmprNotification';
+import Test from '../../pages/common/Test';
 
 function AllRoutes() {
   const user = useSelector((store) => store.allUsers.user);
@@ -30,6 +31,7 @@ function AllRoutes() {
   const userToken = localStorage.getItem('empToken');
   return (
     <Routes>
+      <Route path="/test" element={<Test/>}></Route>
       <Route path="/admin" element={<AdminLogin />}></Route>
       {!userToken && <><Route path="/signin" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>

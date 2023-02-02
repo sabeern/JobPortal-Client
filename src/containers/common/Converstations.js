@@ -3,15 +3,17 @@ import { useSelector } from 'react-redux';
 import { getUser } from '../../apis/ChatRequests';
 import { instance } from '../../apis/JobSolutionApi';
 
-function Converstations({ data, currentUserId, online }) {
+function Converstations({ data, currentUserId, online, receivedMessage, currentChat}) {
   const [userData, setUserData] = useState();
-  const [unReadCount, setUnreadCount] = useState();
   const user = useSelector((store) => store.allUsers.user);
+  const [unReadCount, setUnreadCount] = useState();
   useEffect(() => {
     const otherUserId = data.members.find((id) => id !== currentUserId);
     const getUserData = async () => {
       try {
-        const { data } = await getUser(otherUserId);
+        const token = localStorage.getItem('empToken');
+        const headers = { 'X-Custom-Header': `${token}` };
+        const { data } = await getUser(otherUserId, headers);
         setUserData(data.userDetails);
       } catch (err) {
       }
@@ -26,7 +28,12 @@ function Converstations({ data, currentUserId, online }) {
       })
     }
     getUserData();
-  }, [data]);
+  }, [data, receivedMessage]);
+  useEffect(()=> {
+    if(currentChat && currentChat._id === data._id) {
+      setUnreadCount(0);
+    }
+  },[currentChat]);
 
   return (
     <>

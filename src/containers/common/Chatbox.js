@@ -2,19 +2,25 @@ import React, { useEffect, useRef, useState } from 'react';
 import { addMessage, getMessages, getUser } from '../../apis/ChatRequests';
 import { format } from 'timeago.js';
 import { BsFillCursorFill } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Logout } from '../../apis/Logout';
+import { useNavigate } from 'react-router-dom';
 
 function Chatbox({ chat, currentUserId, setSendMessage, receivedMessage }) {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const senderData = useSelector((store) => store.allUsers.user);
   const scroll = useRef();
   useEffect(() => {
-    const otherUserId = chat?.members?.find((id) => id != currentUserId);
+    const otherUserId = chat?.members?.find((id) => id !== currentUserId);
     const getUserData = async () => {
       try {
-        const { data } = await getUser(otherUserId);
+        const token = localStorage.getItem('empToken');
+        const headers = { 'X-Custom-Header': `${token}` }
+        const { data } = await getUser(otherUserId, headers);
         setUserData(data.userDetails);
       } catch (err) {
       }
@@ -31,7 +37,9 @@ function Chatbox({ chat, currentUserId, setSendMessage, receivedMessage }) {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const { data } = await getMessages(chat._id);
+        const token = localStorage.getItem('empToken');
+        const headers = { 'X-Custom-Header': `${token}` };
+        const { data } = await getMessages(chat._id, headers);
         setMessages(data);
       } catch (err) {
       }
@@ -40,18 +48,31 @@ function Chatbox({ chat, currentUserId, setSendMessage, receivedMessage }) {
       fetchMessages();
     }
   }, [chat]);
+  const _handleKeyDown = function(e) {
+    console.log(e.key)
+    if (e.key === 'Enter') {
+      handleSend();
+    }}
   const handleChange = (e) => {
     setNewMessage(e.target.value);
   }
   const handleSend = async (e) => {
-    e.preventDefault();
+    if(newMessage.trim() === "") {
+      return;
+    }
+    const token = localStorage.getItem('empToken');
+    if(!token) {
+      Logout(dispatch, navigate);
+    }
     const message = {
       senderId: currentUserId,
       text: newMessage,
       chatId: chat._id
     }
     try {
-      const { data } = await addMessage(message);
+      const token = localStorage.getItem('empToken');
+        const headers = { 'X-Custom-Header': `${token}` };
+      const { data } = await addMessage(message, headers);
       setMessages([...messages, data]);
       setNewMessage("");
     } catch (err) {
@@ -64,7 +85,7 @@ function Chatbox({ chat, currentUserId, setSendMessage, receivedMessage }) {
   }, [messages])
   return (
     <>
-      {chat ? <h2 style={{ background: "#0D6EFD", borderRadius: '20px', paddingLeft: '20px', paddingBottom: '5px', paddingTop: '5px', color: 'white' }}>
+      {chat ? <h2 style={{ background: "#A1C2D5", borderRadius: '20px', paddingLeft: '20px', paddingBottom: '5px', paddingTop: '5px', color: 'white' }}>
         {userData && ((userData.companyName) ? userData.companyName : userData.firstName + " " + userData.lastName)}
       </h2> : ''}
       <div className="overflow-auto pt-3 pe-3" style={{ height: '70vh' }}>
@@ -92,7 +113,7 @@ function Chatbox({ chat, currentUserId, setSendMessage, receivedMessage }) {
                   </div>) :
                   (<div className="d-flex flex-row justify-content-end">
                     <div>
-                      <p className="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">
+                      <p className="small p-2 me-3 mb-1 text-white rounded-3" style={{backgroundColor:'#F1CEBC'}}>
                         {message.text}
                       </p>
                       <p className="small me-3 mb-3 rounded-3 text-muted">
@@ -121,6 +142,7 @@ function Chatbox({ chat, currentUserId, setSendMessage, receivedMessage }) {
             id="exampleFormControlInput2"
             placeholder="Type message"
             onChange={handleChange} value={newMessage}
+            onKeyUp={_handleKeyDown}
           />
           <span className="ms-3" onClick={handleSend}>
             <BsFillCursorFill />

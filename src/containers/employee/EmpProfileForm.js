@@ -149,7 +149,7 @@ function EmpProfileForm() {
                     <FormInputbox data={{ type: "number", placeholder: "Contact number", label: "Contact Number", value: employeeDetails.contactNumber, name: 'contactNumber', handleChange: handleChange, disabled: false, class: "mb-3" }} />
                     <Form.Group controlId="formFile" className="mb-3">
                         <Form.Label>Upload Resume</Form.Label>
-                        <Form.Control type="file" name='employeeResume' onChange={handleFile} />
+                        <Form.Control type="file" name='employeeResume' onChange={handleFile} accept=".pdf"/>
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Update Details

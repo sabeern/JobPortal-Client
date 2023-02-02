@@ -75,7 +75,7 @@ function AddPostModal({ data }) {
                     </Form.Group>
                     <Form.Group controlId="formFile" className="mb-3">
                         <Form.Label>Select Image</Form.Label>
-                        <Form.Control type="file" onChange={imageChange} />
+                        <Form.Control type="file" onChange={imageChange} accept="image/*"/>
                     </Form.Group>
                     {selectedImage && (
                         <div >

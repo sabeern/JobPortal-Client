@@ -41,7 +41,7 @@ function Header() {
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand href="#" style={{ paddingRight: '80px' }}><b>Job Solutions</b></Navbar.Brand>
+        <Navbar.Brand href="/empProfile" style={{ paddingRight: '80px' }}><b>Job Solutions</b></Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav

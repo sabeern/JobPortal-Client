@@ -3,13 +3,16 @@ import { Row, Col, Button } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { createChat } from '../../apis/ChatRequests';
-import { instance, url } from '../../apis/JobSolutionApi';
+import { instance } from '../../apis/JobSolutionApi';
 import Loader from '../common/Loader';
 
 function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatus }) {
+    console.log('tagSt'+tagStatus)
     const [jobStatus, setJobStatus] = useState();
     const [statusColor, setStatusColor] = useState();
+    const navigate = useNavigate();
     const user = useSelector((store) => store.allUsers.user);
     const job = useSelector((store) => store.selectedJob.job);
     const [loading, setLoading] = useState();
@@ -40,13 +43,13 @@ function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatu
     }
     const handleChat = async () => {
         try {
+            const token = localStorage.getItem('empToken');
+            const headers = { 'X-Custom-Header': `${token}` }
             await createChat(user._id, data._id);
             try {
-                const token = localStorage.getItem('empToken');
-                const headers = { 'X-Custom-Header': `${token}` }
                 await instance.put('jobs/tagJob', { jobId: job._id, empId: data._id }, { headers });
                 setTagStatus(true);
-                window.open(`${url}/chat`, '_blank', 'noopener,noreferrer');
+                navigate(`/chat`);
             } catch (err) {
             }
         } catch (err) {
@@ -100,7 +103,9 @@ function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatu
                                 </td>
                             </tr>
                         </table>
-                        {tagStatus ? <p className="text-success">Already Tagged To Chat</p>
+                        {tagStatus ? <p className="text-success">
+                                    <Link to="/chat"><Button variant="outline-success">Chat With Applicant</Button></Link>
+                            </p>
                             : <Button variant="outline-success" onClick={handleChat}>Tag And Chat With Applicant</Button>}
                     </Col>
                 </Row>

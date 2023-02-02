@@ -44,7 +44,7 @@ function EmpProfile() {
             <EmpProfileForm />
             <Col md={6} className="overflow-auto d-none d-md-block" style={{ maxHeight: '80vh' }}>
               <Row><Col md={12}><Link to="" className='float-end mt-3'><Button className='btn btn-primary' style={{ borderRadius: '20px' }} onClick={handleShow}>Add New Post</Button></Link></Col></Row>
-              {employeePost && employeePost.length < 1 && <h2 style={{ marginLeft: '20px', marginTop: '100px' }}>Ther is no posts available</h2>}
+              {employeePost && employeePost.length < 1 && <img src="https://res.cloudinary.com/dyff453oq/image/upload/v1675172748/Jobsolutions/iggddcehyhutyzgjom8o.png" alt="No Posts" style={{width:'90%',height:'auto'}} className="m-4"/>}
               {employeePost &&
                 employeePost.map((post, index) => {
                   return (

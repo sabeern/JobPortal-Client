@@ -28,7 +28,7 @@ function EmprJobCard({ jobDetails }) {
           </Card.Text>
           <Card.Link style={{ textDecoration: 'none' }}>Posted on {returnNewDate(jobDetails.postedDate)}</Card.Link>
           <Card.Link style={{ textDecoration: 'none', paddingLeft: '60px' }}>
-            <Link to={`/jobApplications/${jobDetails._id}`} target="_blank">Applied ({appCount} Candidates) </Link>
+            <Link to={`/jobApplications/${jobDetails._id}`}>Applied ({appCount} Candidates) </Link>
           </Card.Link><br />
           <Link to={`/deleteJob/${jobDetails._id}`}>
             <p className='text-danger' style={{ textDecoration: 'underline', cursor: 'pointer' }}>
