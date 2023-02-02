@@ -45,7 +45,7 @@ function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatu
         try {
             const token = localStorage.getItem('empToken');
             const headers = { 'X-Custom-Header': `${token}` }
-            await createChat(user._id, data._id);
+            await createChat(user._id, data._id, headers);
             try {
                 await instance.put('jobs/tagJob', { jobId: job._id, empId: data._id }, { headers });
                 setTagStatus(true);
