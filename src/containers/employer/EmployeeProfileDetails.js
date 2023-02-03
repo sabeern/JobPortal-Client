@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Spinner } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatu
     const user = useSelector((store) => store.allUsers.user);
     const job = useSelector((store) => store.selectedJob.job);
     const [loading, setLoading] = useState();
+    const [tagLoading, setTagLoading] = useState();
     useEffect(() => {
         if (appStatus) {
             if (appStatus.applicationStatus !== 'Not Processed') {
@@ -41,6 +42,7 @@ function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatu
         setLoading(false);
     }
     const handleChat = async () => {
+        setTagLoading(true);
         try {
             const token = localStorage.getItem('empToken');
             const headers = { 'X-Custom-Header': `${token}` }
@@ -54,8 +56,8 @@ function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatu
             }
         } catch (err) {
         }
+        setTagLoading(false);
     }
-    console.log('tag'+tagStatus)
     return (
         <>
             {loading && <Loader />}
@@ -104,10 +106,12 @@ function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatu
                                 </td>
                             </tr>
                         </table>
+                        {tagLoading ? <><Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" />
+                                Loading... </>:<>
                         {tagStatus ? <p className="text-success">
                                     <Link to="/chat"><Button variant="outline-success" onClick={handleChat}>Chat With Applicant</Button></Link>
                             </p>
-                            : <Button variant="outline-success" onClick={handleChat}>Tag And Chat With Applicant</Button>}
+                            : <Button variant="outline-success" onClick={handleChat}>Tag And Chat With Applicant</Button>}</>}
                     </Col>
                 </Row>
             </Col>
