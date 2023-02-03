@@ -41,7 +41,7 @@ function AppEmployeeProfile() {
       <Header />
       <Container>
         <Row>
-          {empProfile && <EmployeeProfileDetails data={empProfile} jobId={jobDetails.jobId} appStatus={appStatus} tagStatus={tagStatus} setTagStatus={setTagStatus} />}
+          {empProfile && jobDetails && <EmployeeProfileDetails data={empProfile} jobId={jobDetails.jobId} appStatus={appStatus} tagStatus={tagStatus} setTagStatus={setTagStatus} />}
           {empPost && <EmployeeProfilePost data={empPost} empName={empProfile.firstName + " " + empProfile.lastName} profileImage={empProfile.profileImage} />}
         </Row>
       </Container>
