@@ -32,11 +32,12 @@ function Header() {
     }
     const headers = { 'X-Custom-Header': `${token}` }
     instance.get('/user', { headers: headers }).then((res)=> {
-      console.log('data'+res.data.user);
         if(res.data.user.blockStatus) {
           handleLogout();
         }
-    }).catch((err)=>{handleLogout();navigate('/signin');})
+    }).catch((err)=>{
+      //handleLogout();
+      navigate('/signin');})
     dispatch(fetchAllJobs());
     dispatch(setEmployeePosts());
   }, []);
