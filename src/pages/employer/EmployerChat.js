@@ -132,14 +132,15 @@ function EmployerChat() {
                       <div className="overflow-auto pt-3 pe-3" style={{ height: '70vh' }}>
                         <MDBTypography listUnStyled className="mb-0" style={{ position: "relative", height: '300px' }}>
                           {chats &&
-                          chats.length > 0 ?
+                          chats.length > 0 &&
                             chats.map((chat) => {
                               return (
                                 <div onClick={() =>{ logoutFunction();setCurrentChat(chat)}}>
                                   <Converstations data={chat} currentUserId={user._id} currentChat={currentChat} online={checkOnlineStatus(chat)} receivedMessage={receivedMessage}/>
                                 </div>
                               )
-                            }) :
+                            }) }
+                            {chats && chats.length < 1 &&
                             <>
                             <img src="https://static.thenounproject.com/png/791662-200.png" alt="No chat"/>
                             <p className='m-4' style={{fontSize:'25px'}}>No chat avalable</p>

@@ -9,7 +9,6 @@ import { instance } from '../../apis/JobSolutionApi';
 import Loader from '../common/Loader';
 
 function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatus }) {
-    console.log('tagSt'+tagStatus)
     const [jobStatus, setJobStatus] = useState();
     const [statusColor, setStatusColor] = useState();
     const navigate = useNavigate();
@@ -51,10 +50,12 @@ function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatu
                 setTagStatus(true);
                 navigate(`/chat`);
             } catch (err) {
+                navigate(`/chat`);
             }
         } catch (err) {
         }
     }
+    console.log('tag'+tagStatus)
     return (
         <>
             {loading && <Loader />}
@@ -104,7 +105,7 @@ function EmployeeProfileDetails({ data, jobId, appStatus, tagStatus, setTagStatu
                             </tr>
                         </table>
                         {tagStatus ? <p className="text-success">
-                                    <Link to="/chat"><Button variant="outline-success">Chat With Applicant</Button></Link>
+                                    <Link to="/chat"><Button variant="outline-success" onClick={handleChat}>Chat With Applicant</Button></Link>
                             </p>
                             : <Button variant="outline-success" onClick={handleChat}>Tag And Chat With Applicant</Button>}
                     </Col>

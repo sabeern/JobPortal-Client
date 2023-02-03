@@ -46,15 +46,16 @@ function Home() {
                 );
               })
             }
-            <Pagination
-              jobsPerPage={jobsPerPage}
-              jobCount={totalJobs.length}
-              paginate={paginate}
-              currentPage={currentPage}
-            />
+            {allJobs && allJobs.length > 0 &&
+              <Pagination
+                jobsPerPage={jobsPerPage}
+                jobCount={totalJobs.length}
+                paginate={paginate}
+                currentPage={currentPage}
+              />}
           </Col>
           <Col md={6}>
-            <EachJobDetails />
+            {allJobs && allJobs.length > 0 && <EachJobDetails />}
           </Col>
         </Row>
       </Container>

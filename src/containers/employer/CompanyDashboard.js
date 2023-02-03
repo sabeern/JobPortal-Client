@@ -34,7 +34,7 @@ function CompanyDashboard() {
           </Container>
         ) : <>
           <img src="https://d341ezm4iqaae0.cloudfront.net/assets/2016/06/19163422/indeed-Hub-illustrations-09.png" alt="Add Job" style={{width:'80%',height:'auto'}}/>
-          <p className="m-4" style={{color:'#7C848B',fontSize:'30px'}}>Currently not posted sny jobs...</p>
+          <p className="m-4" style={{color:'#7C848B',fontSize:'30px'}}>Currently not posted any jobs...</p>
         </>
       }
     </div>

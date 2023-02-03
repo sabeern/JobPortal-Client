@@ -4,7 +4,7 @@ import { instance } from '../../apis/JobSolutionApi';
 export const setUser = (user) => {
     return async function (dispatch, getState) {
         const token = localStorage.getItem('empToken');
-        const headers = { 'X-Custom-Header': `${token}` }
+        const headers = { 'X-Custom-Header': `${token}` };
         const res = await instance.get('/user', { headers: headers });
         dispatch({ type: actionTypes.SET_USER, payload: res.data.user });
     }
@@ -79,5 +79,10 @@ export const removeJobs = () => {
 export const removePosts = () => {
     return ({
         type: actionTypes.REMOVE_POST,
+    })
+}
+export const removeSelectedJob = () => {
+    return ({
+        type: actionTypes.REMOVE_SELECTED_JOB,
     })
 }

@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { instance } from '../../apis/JobSolutionApi';
 import EmployeeMenu from '../../components/EmployeeMenu';
 import EmployerMenu from '../../components/EmployerMenu';
-import { fetchAllJobs, removeJobs, removePosts, removeUser, setEmployeePosts, setUser } from '../../redux/actions/UserAction';
+import { fetchAllJobs, removeJobs, removePosts, removeSelectedJob, removeUser, setEmployeePosts, setUser } from '../../redux/actions/UserAction';
 
 function Header() {
   let allUsers = useSelector((store) => store.allUsers);
@@ -21,6 +21,7 @@ function Header() {
     dispatch(removeUser());
     dispatch(removeJobs());
     dispatch(removePosts());
+    dispatch(removeSelectedJob());
     navigate('/signin');
   };
   useEffect(() => {
@@ -31,10 +32,11 @@ function Header() {
     }
     const headers = { 'X-Custom-Header': `${token}` }
     instance.get('/user', { headers: headers }).then((res)=> {
+      console.log('data'+res.data.user);
         if(res.data.user.blockStatus) {
           handleLogout();
         }
-    }).catch((err)=>{navigate('/signin');})
+    }).catch((err)=>{handleLogout();navigate('/signin');})
     dispatch(fetchAllJobs());
     dispatch(setEmployeePosts());
   }, []);

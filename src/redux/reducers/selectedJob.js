@@ -8,6 +8,9 @@ export const selectedJobReducer = (state = initialState, { type, payload }) => {
         case actionTypes.SET_SELECTED_JOB: {
             return { job: payload };
         }
+        case actionTypes.REMOVE_SELECTED_JOB: {
+            return { };
+        }
         default:
             return state;
     }

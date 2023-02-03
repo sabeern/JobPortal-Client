@@ -66,7 +66,7 @@ function EachJobDetails() {
           <Button className="btn btn-secondary" onClick={handleShow}><BsFillFlagFill /> Report Job</Button>
         </Card.Body>
       </Card>
-      <ReportModal data={{ handleClose, show, jobId: job._id }} />
+      <ReportModal data={job ? { handleClose, show, jobId: job._id } : ''} />
     </>
   )
 }

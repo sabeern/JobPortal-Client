@@ -35,7 +35,7 @@ function AppEmployeeProfile() {
   useEffect(() => {
     getEmployeeProfile()
     getJobStatus();
-  }, [empId]);
+  }, []);
   return (
     <>
       <Header />
