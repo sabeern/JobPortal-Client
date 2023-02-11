@@ -5,7 +5,7 @@ import { instance } from '../../apis/JobSolutionApi';
 import { fetchAllJobs } from '../../redux/actions/UserAction';
 import Loader from '../common/Loader';
 
-function SearchBox() {
+function SearchBox({setToalJobs}) {
   const [searchData, setSearchData] = useState({
     jobTitle: '', jobLocation: ''
   });
@@ -19,7 +19,8 @@ function SearchBox() {
     setLoading(true);
     try {
       const res = await instance.post('/jobs/searchJob', searchData);
-      dispatch(fetchAllJobs(res.data.searchResult));
+      //dispatch(fetchAllJobs(res.data.searchResult));
+      setToalJobs(res.data.searchResult);
     } catch (err) { }
     setLoading(false);
   }

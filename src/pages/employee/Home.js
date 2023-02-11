@@ -10,7 +10,7 @@ import Pagination from '../../components/Pagination';
 
 function Home() {
   const dispatch = useDispatch();
-  const totalJobs = useSelector((store) => store.allJobs.jobs);
+  const [totalJobs, setToalJobs] = useState(useSelector((store) => store.allJobs.jobs));
   const [allJobs, setAllJobs] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [jobsPerPage] = useState(10);
@@ -19,7 +19,7 @@ function Home() {
   useEffect(() => {
     const jobs = totalJobs.slice(indexOfFirstPost, indexOfLastPost);
     setAllJobs(jobs);
-  }, [currentPage]);
+  }, [currentPage,totalJobs]);
   // Change page
   const paginate = pageNumber => setCurrentPage(pageNumber);
   if (allJobs && allJobs.length > 0) {
@@ -36,7 +36,7 @@ function Home() {
       </Container>
       <Container>
         <hr />
-        <SearchBox />
+        <SearchBox setToalJobs={setToalJobs}/>
         <Row>
           <Col md={6} className="overflow-auto" style={{ height: '70vh' }}>
             {allJobs &&
